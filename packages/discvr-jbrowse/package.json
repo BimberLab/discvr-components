@@ -2,6 +2,7 @@
     "name": "discvr-jbrowse",
     "version": "0.0.0",
     "scripts": {
+        "lint": "eslint .",
         "test": "echo \"Testing jbrowse\""
     },
     "dependencies": {
