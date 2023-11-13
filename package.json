@@ -15,7 +15,10 @@
   "name": "discvr-components",
   "packageManager": "npm@8.15.0",
   "workspaces": [
-    "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@mui/material": "^5.14.17"
+  }
 }

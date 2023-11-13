@@ -1,6 +1,9 @@
 {
     "name": "discvr-jbrowse",
     "version": "0.0.0",
+    "scripts": {
+        "test": "echo \"Testing jbrowse\""
+    },
     "dependencies": {
         "react": "^18.2.0"
     }

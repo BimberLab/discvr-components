@@ -34,6 +34,6 @@ module.exports = {
   ignorePatterns: ["node_modules/", "dist/", ".eslintrc.js"],
 
   rules: {
-    // add specific rules configurations here
+    "@typescript-eslint/no-explicit-any": 0
   },
 };

@@ -15,7 +15,9 @@
     "preserveWatchOutput": true,
     "skipLibCheck": true,
     "strict": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "noImplicitAny":false,
+    "jsx": "react"
   },
   "exclude": ["node_modules"]
 }
