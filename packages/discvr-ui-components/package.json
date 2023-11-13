@@ -1,6 +1,9 @@
 {
     "name": "discvr-ui-components",
     "version": "0.0.0",
+    "scripts": {
+        "test": "echo \"Testing ui-components\""
+    },
     "dependencies": {
         "react": "^18.2.0"
     }
