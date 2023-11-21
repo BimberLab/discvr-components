@@ -1,7 +1,10 @@
 {
     "name": "discvr-utils",
     "version": "0.0.0",
+    "scripts": {
+        "test": "echo \"Testing utils\""
+    },
     "dependencies": {
-        "react": "^18.2.0"
+        "react": "*"
     }
 }
