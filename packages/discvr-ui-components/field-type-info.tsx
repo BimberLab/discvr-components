@@ -7,15 +7,18 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { styled } from '@mui/material/styles';
 
+
+
 export declare type ValueInputProps = {
     filter: any,
     index: number,
-    highlightedInputs: any,
+    highlightedInputs: {field:boolean,operator: boolean,value:boolean}[],
     handleFilterChange: any,
     highlightedSx: any,
     allowedGroupNames?: string[],
     fieldTypeInfo: any[],
 }
+
 
 
 const ValueComponent = (props: ValueInputProps) => {
@@ -30,6 +33,8 @@ const ValueComponent = (props: ValueInputProps) => {
         minWidth: 200,
         marginRight: theme.spacing(2)
     }))
+
+    
 
     return (
         <>
