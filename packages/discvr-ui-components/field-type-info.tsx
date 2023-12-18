@@ -9,21 +9,59 @@ import { styled } from '@mui/material/styles';
 
 
 
-export declare type ValueInputProps = {
-    filter: any,
-    index: number,
-    highlightedInputs: {field:boolean,operator: boolean,value:boolean}[],
-    handleFilterChange: any,
-    highlightedSx: any,
-    allowedGroupNames?: string[],
-    fieldTypeInfo: any[],
+interface FieldModel {
+    name: string;
+    label: string;
+    description: string;
+    type: string;
+    isInDefaultColumns: boolean;
+    isMultiValued: boolean;
+    isHidden: boolean;
+    colWidth: number;
+    formatString: string;
+    orderKey: number;
+    allowableValues: string[];
+    category: string;
+    url: string;
+    flex: number;
+    supportsFilter: boolean;
+}
+
+
+type HandleFilterChangeFunction = (
+    index: number, 
+    key: string, 
+    value: string, 
+) => FilterType;
+
+
+interface FilterType {
+    field: string;
+    operator: string;
+    value: string;
+}
+
+
+interface ValueInputProps {
+    filter: FilterType;
+    index: number;
+    highlightedInputs: { field:boolean, operator: boolean, value:boolean }[];
+    handleFilterChange: HandleFilterChangeFunction;
+    allowedGroupNames?: string[];
+    fieldTypeInfo: FieldModel[];
 }
 
 
 
-const ValueComponent = (props: ValueInputProps) => {
+function ValueComponent(props: ValueInputProps): React.ReactElement | null {
 
-    const {filter, index, highlightedInputs, handleFilterChange, highlightedSx, allowedGroupNames, fieldTypeInfo} = props
+    const {filter, index, highlightedInputs, handleFilterChange, allowedGroupNames, fieldTypeInfo} = props
+
+    const highlightedSx = {
+        border: '2px solid red',
+        borderRadius: '4px'
+    }
+
     const FormControlMinWidth = styled(FormControl)(({ theme }) => ({
         minWidth: 200,
         marginRight: theme.spacing(2)
@@ -34,8 +72,6 @@ const ValueComponent = (props: ValueInputProps) => {
         marginRight: theme.spacing(2)
     }))
 
-    
-
     return (
         <>
             {
@@ -44,27 +80,23 @@ const ValueComponent = (props: ValueInputProps) => {
                         <InputLabel id="value-select-label">Value</InputLabel>
                         <Select
                             labelId="value-select-label"
-                            value={filter.value}
                             onChange={(event) =>
-                                handleFilterChange(index, "value", event.target.value)
+                                { handleFilterChange(index, "value", event.target.value); }
                             }
+                            value={filter.value}
                         >
                             {allowedGroupNames?.map((gn) => (
-                                <MenuItem value={gn} key={gn}>{gn}</MenuItem>
+                                <MenuItem key={gn} value={gn}>{gn}</MenuItem>
                             ))}
                         </Select>
                     </FormControlMinWidth>
-                ) : fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues?.length > 10 ? (
+                ) : fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues.length > 10 ? (
                     <FormControlMinWidth sx={highlightedInputs[index]?.value ? highlightedSx : null} >
                         <AsyncSelect
+                            aria-labelledby={`value-select-${index}`}
                             id={`value-select-${index}`}
                             inputId={`value-select-${index}`}
-                            aria-labelledby={`value-select-${index}`}
-                            menuPortalTarget={document.body}
-                            menuPosition={'fixed'}
                             isDisabled={filter.operator === "is empty" || filter.operator === "is not empty"}
-                            menuShouldBlockScroll={true}
-                            styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                             isMulti={fieldTypeInfo.find(obj => obj.name === filter.field)?.isMultiValued}
                             loadOptions={(inputValue, callback) => {
                                 const fieldInfo = fieldTypeInfo.find(obj => obj.name === filter.field);
@@ -75,22 +107,26 @@ const ValueComponent = (props: ValueInputProps) => {
                                         .map(value => ({ label: value, value }))
                                 );
                             }}
-                            onChange={(selected) => handleFilterChange(index, "value", selected?.length > 0 ? selected.map(s => s.value).join(',') : undefined)}
+                            menuPortalTarget={document.body}
+                            menuPosition="fixed"
+                            menuShouldBlockScroll
+                            onChange={(selected: FilterType[]) => { handleFilterChange(index, "value", selected.length > 0 ? selected.map(s => s.value).join(',') : undefined); }}
+                            styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                             value={filter.value ? filter.value.split(',').map(value => ({ label: value, value })) : undefined}
                         />
                     </FormControlMinWidth>
-                ) : fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues?.length > 0 ? (
+                ) : fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues.length > 0 ? (
                     <FormControlMinWidth sx={highlightedInputs[index]?.value ? highlightedSx : null} >
                         <InputLabel id="value-select-label">Value</InputLabel>
                         <Select
-                            labelId="value-select-label"
-                            value={filter.value}
                             disabled={filter.operator === "is empty" || filter.operator === "is not empty"}
+                            labelId="value-select-label"
                             onChange={(event) =>
-                                handleFilterChange(index, "value", event.target.value)
+                                { handleFilterChange(index, "value", event.target.value); }
                             }
+                            value={filter.value}
                         >
-                            {fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues?.map(allowableValue => (
+                            {fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues.map(allowableValue => (
                                 <MenuItem key={allowableValue} value={allowableValue}>
                                     {allowableValue}
                                 </MenuItem>
@@ -99,13 +135,13 @@ const ValueComponent = (props: ValueInputProps) => {
                     </FormControlMinWidth>
                 ) : (
                     <TextFieldMinWidth
+                        disabled={filter.operator === "is empty" || filter.operator === "is not empty"}
                         label="Value"
+                        onChange={(event) =>
+                            { handleFilterChange(index, 'value', event.target.value); }
+                        }
                         sx={highlightedInputs[index]?.value ? highlightedSx : null}
                         value={filter.value}
-                        disabled={filter.operator === "is empty" || filter.operator === "is not empty"}
-                        onChange={(event) =>
-                            handleFilterChange(index, 'value', event.target.value)
-                        }
                     />
                 )
             }
@@ -113,4 +149,4 @@ const ValueComponent = (props: ValueInputProps) => {
     );
 }
 
-export default ValueComponent
+export { ValueComponent }

@@ -1,8 +1,8 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import ValueComponent from './field-type-info';
+import { ValueComponent } from './field-type-info';
 
-export declare type FieldModel = {
+export declare interface FieldModel {
     name: string
     label: string
     description: string
@@ -20,7 +20,7 @@ export declare type FieldModel = {
     supportsFilter: boolean
 }
 
-export declare type FilterModel = {
+export declare interface FilterModel {
     field: string
     op: string
     val: string
@@ -72,14 +72,14 @@ it('ValueComponent test', () => {
 
     const component = TestRenderer.create(
         <ValueComponent 
+        fieldTypeInfo={fieldTypeInfo} 
         filter={filter} 
-        index={0} 
 
-        highlightedInputs={[{field:false, operator:false, value:false},{field:false, operator:false, value:false}]}
+        handleFilterChange={undefined}
 
-        handleFilterChange={undefined} 
+        highlightedInputs={[{field:false, operator:false, value:false},{field:false, operator:false, value:false}]} 
         highlightedSx={undefined} 
-        fieldTypeInfo={fieldTypeInfo}></ValueComponent>
+        index={0} />
     );
     expect(component.toJSON()).toMatchSnapshot();
 
