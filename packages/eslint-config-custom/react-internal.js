@@ -34,6 +34,7 @@ module.exports = {
   ignorePatterns: ["node_modules/", "dist/", ".eslintrc.js"],
 
   rules: {
-    "@typescript-eslint/no-implicit-any": 0
+    "@typescript-eslint/no-implicit-any": 0,
+    "no-nested-ternary": 0
   },
 };

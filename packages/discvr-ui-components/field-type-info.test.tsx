@@ -1,5 +1,5 @@
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import {create} from 'react-test-renderer';
 import { ValueComponent } from './field-type-info';
 
 export declare interface FieldModel {
@@ -70,7 +70,7 @@ it('ValueComponent test', () => {
 
     
 
-    const component = TestRenderer.create(
+    const component = create(
         <ValueComponent 
         fieldTypeInfo={fieldTypeInfo} 
         filter={filter} 
