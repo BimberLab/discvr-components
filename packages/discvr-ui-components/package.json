@@ -1,9 +1,14 @@
 {
     "name": "discvr-ui-components",
     "version": "0.0.0",
+    "main": "./dist/field-type-info.js",
+    "module": "./dist/field-type-info.mjs",
+    "types": "./dist/field-type-info.d.tsx",
     "scripts": {
         "test": "jest",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "build": "tsup field-type-info.tsx --format cjs,esm --dts",
+        "dev": "npm run build -- --watch"
     },
     "dependencies": {
         "react": "^17.0.0",

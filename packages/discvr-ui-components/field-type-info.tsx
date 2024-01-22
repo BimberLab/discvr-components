@@ -31,7 +31,7 @@ interface FieldModel {
 type HandleFilterChangeFunction = (
     index: number, 
     key: string, 
-    value: string, 
+    value: string | unknown, 
 ) => FilterType;
 
 

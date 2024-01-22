@@ -21,9 +21,9 @@ export declare interface FieldModel {
 }
 
 export declare interface FilterModel {
-    field: string
-    op: string
-    val: string
+    field: string;
+    operator: string;
+    value: string;
 }
 
 it('ValueComponent test', () => {
@@ -64,11 +64,12 @@ it('ValueComponent test', () => {
 
     const filter:FilterModel = {
         field: '',
-        op: '',
-        val: ''
+        operator: '',
+        value: ''
     }
 
     
+
 
     const component = create(
         <ValueComponent 
