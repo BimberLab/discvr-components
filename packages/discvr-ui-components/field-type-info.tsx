@@ -41,6 +41,10 @@ interface FilterType {
     value: string;
 }
 
+interface SelectValue {
+    label: string,
+    value: string
+}
 
 interface ValueInputProps {
     filter: FilterType;
@@ -90,7 +94,7 @@ function ValueComponent(props: ValueInputProps): React.ReactElement | null {
                             ))}
                         </Select>
                     </FormControlMinWidth>
-                ) : fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues.length > 10 ? (
+                ) : (fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues?.length ?? 0) > 10 ? (
                     <FormControlMinWidth sx={highlightedInputs[index]?.value ? highlightedSx : null} >
                         <AsyncSelect
                             aria-labelledby={`value-select-${index}`}
@@ -110,12 +114,17 @@ function ValueComponent(props: ValueInputProps): React.ReactElement | null {
                             menuPortalTarget={document.body}
                             menuPosition="fixed"
                             menuShouldBlockScroll
-                            onChange={(selected: FilterType[]) => { handleFilterChange(index, "value", selected.length > 0 ? selected.map(s => s.value).join(',') : undefined); }}
+                            onChange={(newValue, _actionMeta) => {
+                                const value = Array.isArray(newValue)
+                                    ? newValue.map(s => s.value).join(',')
+                                    : newValue === null ? undefined : (newValue as SelectValue).value;
+                                handleFilterChange(index, "value", value);
+                            }}
                             styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
-                            value={filter.value ? filter.value.split(',').map(value => ({ label: value, value })) : undefined}
+                            value={filter.value ? filter.value.split(',').map(value => ({ label: value, value } as SelectValue)) : undefined}
                         />
                     </FormControlMinWidth>
-                ) : fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues.length > 0 ? (
+                ) : (fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues?.length ?? 0) > 0 ? (
                     <FormControlMinWidth sx={highlightedInputs[index]?.value ? highlightedSx : null} >
                         <InputLabel id="value-select-label">Value</InputLabel>
                         <Select
