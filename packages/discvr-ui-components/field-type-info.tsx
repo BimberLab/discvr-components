@@ -31,7 +31,7 @@ interface FieldModel {
 type HandleFilterChangeFunction = (
     index: number, 
     key: string, 
-    value: string | unknown, 
+    value: string | undefined, 
 ) => FilterType;
 
 
@@ -41,6 +41,7 @@ interface FilterType {
     value: string;
 }
 
+type NewValueType = SelectValue[] | readonly SelectValue[] | SelectValue | null;
 interface SelectValue {
     label: string,
     value: string
@@ -94,7 +95,7 @@ function ValueComponent(props: ValueInputProps): React.ReactElement | null {
                             ))}
                         </Select>
                     </FormControlMinWidth>
-                ) : (fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues?.length ?? 0) > 10 ? (
+                ) : (fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues.length ?? 0) > 10 ? (
                     <FormControlMinWidth sx={highlightedInputs[index]?.value ? highlightedSx : null} >
                         <AsyncSelect
                             aria-labelledby={`value-select-${index}`}
@@ -115,16 +116,25 @@ function ValueComponent(props: ValueInputProps): React.ReactElement | null {
                             menuPosition="fixed"
                             menuShouldBlockScroll
                             onChange={(newValue, _actionMeta) => {
-                                const value = Array.isArray(newValue)
-                                    ? newValue.map(s => s.value).join(',')
-                                    : newValue === null ? undefined : (newValue as SelectValue).value;
-                                handleFilterChange(index, "value", value);
+                                const getValue = (val: NewValueType): string | undefined => {
+                                    if (Array.isArray(val)) {
+                                        return val.map((s: SelectValue) => s.value).join(',')
+                                    } else if (val === null) {
+                                        return undefined;
+                                    } else {
+                                        const selectValue = val as SelectValue;
+                                        return selectValue.value;
+                                    }
+                                }
+
+                                const value = getValue(newValue)
+                                handleFilterChange(index, "value", value)
                             }}
                             styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                             value={filter.value ? filter.value.split(',').map(value => ({ label: value, value } as SelectValue)) : undefined}
                         />
                     </FormControlMinWidth>
-                ) : (fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues?.length ?? 0) > 0 ? (
+                ) : (fieldTypeInfo.find(obj => obj.name === filter.field)?.allowableValues.length ?? 0) > 0 ? (
                     <FormControlMinWidth sx={highlightedInputs[index]?.value ? highlightedSx : null} >
                         <InputLabel id="value-select-label">Value</InputLabel>
                         <Select
