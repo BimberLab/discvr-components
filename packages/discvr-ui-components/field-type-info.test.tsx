@@ -67,19 +67,15 @@ it('ValueComponent test', () => {
         operator: '',
         value: ''
     }
-
     
-
-
     const component = create(
         <ValueComponent 
         fieldTypeInfo={fieldTypeInfo} 
         filter={filter} 
 
-        handleFilterChange={undefined}
+        handleFilterChange={(_index: number, _key: string, _value: string | undefined) => ({ field: "", operator: "", value: "" })}
 
         highlightedInputs={[{field:false, operator:false, value:false},{field:false, operator:false, value:false}]} 
-        highlightedSx={undefined} 
         index={0} />
     );
     expect(component.toJSON()).toMatchSnapshot();
