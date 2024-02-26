@@ -90,6 +90,7 @@ exports[`ValueComponent test 1`] = `
         onFocus={[Function]}
         required={false}
         type="text"
+        value=""
       />
       <style
         dangerouslySetInnerHTML={
