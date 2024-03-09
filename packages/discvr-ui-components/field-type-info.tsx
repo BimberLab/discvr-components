@@ -121,10 +121,10 @@ function ValueComponent(props: ValueInputProps): React.ReactElement | null {
                                         return val.map((s: SelectValue) => s.value).join(',')
                                     } else if (val === null) {
                                         return undefined;
-                                    } else {
-                                        const selectValue = val as SelectValue;
-                                        return selectValue.value;
                                     }
+                                    const selectValue = val as SelectValue;
+                                    return selectValue.value;
+
                                 }
 
                                 const value = getValue(newValue)
