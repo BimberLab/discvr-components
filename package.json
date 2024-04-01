@@ -22,12 +22,14 @@
     "packages/*"
   ],
   "dependencies": {
+    "@changesets/cli": "^2.27.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@material-ui/core": "^4.12.4",
     "@mui/material": "^5.14.20",
+    "discvr-ui-components": "*",
     "jest": "^29.7.0",
     "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react-dom": "^17.0.0",
+    "tsup": "^8.0.1"
   }
 }

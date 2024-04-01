@@ -21,9 +21,9 @@ export declare interface FieldModel {
 }
 
 export declare interface FilterModel {
-    field: string
-    op: string
-    val: string
+    field: string;
+    operator: string;
+    value: string;
 }
 
 it('ValueComponent test', () => {
@@ -64,21 +64,18 @@ it('ValueComponent test', () => {
 
     const filter:FilterModel = {
         field: '',
-        op: '',
-        val: ''
+        operator: '',
+        value: ''
     }
-
     
-
     const component = create(
         <ValueComponent 
         fieldTypeInfo={fieldTypeInfo} 
         filter={filter} 
 
-        handleFilterChange={undefined}
+        handleFilterChange={(_index: number, _key: string, _value: string | undefined) => ({ field: "", operator: "", value: "" })}
 
         highlightedInputs={[{field:false, operator:false, value:false},{field:false, operator:false, value:false}]} 
-        highlightedSx={undefined} 
         index={0} />
     );
     expect(component.toJSON()).toMatchSnapshot();
