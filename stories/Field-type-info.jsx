@@ -1,9 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ValueComponent from '../packages/discvr-ui-components/field-type-info'
+import {ValueComponent} from '../packages/discvr-ui-components/field-type-info'
 
 
-export const fieldType = ValueComponent({filter, index, highlightedInputs, handleFilterChange, allowedGroupNames, fieldTypeInfo});
+export const fieldType = ({filter, index, highlightedInputs, handleFilterChange, allowedGroupNames, fieldTypeInfo}) => { 
+    //ValueComponent({filter, index, highlightedInputs, handleFilterChange, allowedGroupNames, fieldTypeInfo})
+
+    return (
+        <ValueComponent
+            filter={filter}
+            index={index}
+            highlightedInputs={highlightedInputs}
+            handleFilterChange={handleFilterChange}
+            allowedGroupNames={allowedGroupNames}
+            fieldTypeInfo={fieldTypeInfo}
+        />
+    ); 
+};
 
 fieldType.PropTypes = {
 
@@ -27,7 +40,7 @@ fieldType.PropTypes = {
 
     allowedGroupNames: PropTypes.any,
 
-    fieldTypeInfo: PropTypes.shape(
+    fieldTypeInfo: PropTypes.arrayOf(PropTypes.shape(
         {
             name: PropTypes.string,
             label: PropTypes.string,
@@ -45,7 +58,7 @@ fieldType.PropTypes = {
             flex: PropTypes.number,
             supportsFilter: PropTypes.bool
         }
-    )
+    ))
 };
 
 fieldType.defaultProps = {
@@ -53,5 +66,45 @@ fieldType.defaultProps = {
         field:  '',
         operator: '',
         value: ''
-    }
+    },
+    index: 0,
+    highlightedInputs: [{field:false, operator:false, value:false},{field:false, operator:false, value:false}],
+    handleFilterChange: (_index, _key, _value) => ({ field: "", operator: "", value: "" }),
+    allowedGroupNames: null,
+    fieldTypeInfo: [{
+        name: '',
+        label: '',
+        description: '',
+        type: '',
+        isInDefaultColumns: false,
+        isMultiValued: false,
+        isHidden: false,
+        colWidth: 0,
+        formatString: '',
+        orderKey: 0,
+        allowableValues: [],
+        category: '',
+        url: '',
+        flex: 0,
+        supportsFilter: false
+    },
+    {
+        name: '',
+        label: '',
+        description: '',
+        type: '',
+        isInDefaultColumns: false,
+        isMultiValued: false,
+        isHidden: false,
+        colWidth: 0,
+        formatString: '',
+        orderKey: 0,
+        allowableValues: [],
+        category: '',
+        url: '',
+        flex: 0,
+        supportsFilter: false
+    }]
+
+
 }
