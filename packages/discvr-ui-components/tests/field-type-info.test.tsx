@@ -1,11 +1,10 @@
 import React from 'react';
 import {create} from 'react-test-renderer';
-import { OperatorLabel } from './operator-label';
-
+import { ValueComponent } from '../src/field-type-info';
 
 export declare interface FieldModel {
     name: string
-    label: string | undefined
+    label: string
     description: string
     type: string
     isInDefaultColumns: boolean
@@ -27,7 +26,7 @@ export declare interface FilterModel {
     value: string;
 }
 
-it('OperatorLabel test', () => {
+it('ValueComponent test', () => {
     const fieldTypeInfo:FieldModel[] = [{
         name: '',
         label: '',
@@ -68,17 +67,17 @@ it('OperatorLabel test', () => {
         operator: '',
         value: ''
     }
-
-const component = create(
     
-    <OperatorLabel
+    const component = create(
+        <ValueComponent 
         fieldTypeInfo={fieldTypeInfo} 
         filter={filter} 
-        getOperatorsForField={(_fieldObj: FieldModel | undefined) => (["",""])}
-        handleFilterChange={(_index: number, _key: string, _value: string | undefined) => ({ field: "", operator: "", value: "" })}
-        index={0}
-    />
 
-)
-expect(component.toJSON()).toMatchSnapshot();
-})
+        handleFilterChange={(_index: number, _key: string, _value: string | undefined) => ({ field: "", operator: "", value: "" })}
+
+        highlightedInputs={[{field:false, operator:false, value:false},{field:false, operator:false, value:false}]} 
+        index={0} />
+    );
+    expect(component.toJSON()).toMatchSnapshot();
+
+});

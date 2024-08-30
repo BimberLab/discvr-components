@@ -56,7 +56,7 @@ function OperatorLabel(props: OperatorLabelProps): React.ReactElement | null {
         <Select
             label="Operator"    
             labelId="operator-label"
-            
+
             onChange={(event) =>
                 handleFilterChange(index, "operator", event.target.value)
             }

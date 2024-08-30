@@ -1,6 +1,6 @@
 import React from 'react';
 import {create} from 'react-test-renderer';
-import { FieldLabel } from './field-label';
+import { OperatorLabel } from '../src/operator-label';
 
 
 export declare interface FieldModel {
@@ -27,7 +27,7 @@ export declare interface FilterModel {
     value: string;
 }
 
-it('FieldLabel test', () => {
+it('OperatorLabel test', () => {
     const fieldTypeInfo:FieldModel[] = [{
         name: '',
         label: '',
@@ -69,13 +69,16 @@ it('FieldLabel test', () => {
         value: ''
     }
 
-    const component = create(
-        <FieldLabel 
+const component = create(
+    
+    <OperatorLabel
         fieldTypeInfo={fieldTypeInfo} 
         filter={filter} 
+        getOperatorsForField={(_fieldObj: FieldModel | undefined) => (["",""])}
         handleFilterChange={(_index: number, _key: string, _value: string | undefined) => ({ field: "", operator: "", value: "" })}
         index={0}
-        />
-    );
-    expect(component.toJSON()).toMatchSnapshot();
+    />
+
+)
+expect(component.toJSON()).toMatchSnapshot();
 })

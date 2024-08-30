@@ -1,10 +1,11 @@
 import React from 'react';
 import {create} from 'react-test-renderer';
-import { ValueComponent } from './field-type-info';
+import { FieldLabel } from '../src/field-label';
+
 
 export declare interface FieldModel {
     name: string
-    label: string
+    label: string | undefined
     description: string
     type: string
     isInDefaultColumns: boolean
@@ -26,7 +27,7 @@ export declare interface FilterModel {
     value: string;
 }
 
-it('ValueComponent test', () => {
+it('FieldLabel test', () => {
     const fieldTypeInfo:FieldModel[] = [{
         name: '',
         label: '',
@@ -67,17 +68,14 @@ it('ValueComponent test', () => {
         operator: '',
         value: ''
     }
-    
+
     const component = create(
-        <ValueComponent 
+        <FieldLabel 
         fieldTypeInfo={fieldTypeInfo} 
         filter={filter} 
-
         handleFilterChange={(_index: number, _key: string, _value: string | undefined) => ({ field: "", operator: "", value: "" })}
-
-        highlightedInputs={[{field:false, operator:false, value:false},{field:false, operator:false, value:false}]} 
-        index={0} />
+        index={0}
+        />
     );
     expect(component.toJSON()).toMatchSnapshot();
-
-});
+})
